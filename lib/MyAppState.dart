@@ -7,6 +7,8 @@ class MyAppState extends ChangeNotifier {
   var token = "";
   var username = "";
   var error = "";
+  var selectedIndex = 0;
+
 
   //GlobalKey? historyListKey;
   //var favorites = <WordPair>[];  

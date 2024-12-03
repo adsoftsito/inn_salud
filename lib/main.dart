@@ -130,6 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
 
     var appState = context.watch<MyAppState>();
+    //selectedIndex = appState.selectedIndex;
+
     final AuthLink authLink = AuthLink(
     getToken: () async {
         print ('token ${appState.token} OK');
@@ -148,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var colorScheme = Theme.of(context).colorScheme;
     Widget page;
-    switch (selectedIndex) {
+    switch (appState.selectedIndex) {
       case 0:
         page = LoginPage();
         break;
@@ -242,10 +244,10 @@ var mainArea = ColoredBox(
                       ),
        
                     ],
-                    currentIndex: selectedIndex,
+                    currentIndex: appState.selectedIndex,
                     onTap: (value) {
                       setState(() {
-                        selectedIndex = value;
+                        appState.selectedIndex = value;
                       });
                     },
                   ),
@@ -286,7 +288,7 @@ var mainArea = ColoredBox(
                     selectedIndex: selectedIndex,
                     onDestinationSelected: (value) {
                       setState(() {
-                        selectedIndex = value;
+                        appState.selectedIndex = value;
                       });
                     },
                   ),

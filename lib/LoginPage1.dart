@@ -48,14 +48,14 @@ class LoginPage extends StatefulWidget {
 
 //class LoginWidget extends State<LoginPage> {
 
-class LoginPage extends StatefulWidget {
+class LoginPage1 extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage1> {
 
-  //final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
 //class LoginPage extends StatelessWidget {
 
@@ -94,9 +94,6 @@ Future<QueryResult> _login() async {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-
-  final _formKey1 = GlobalKey<FormState>();
-  final _formKey2 = GlobalKey<FormState>();
 
     if (appState.token.isNotEmpty) {
       return Center(
@@ -139,18 +136,28 @@ Future<QueryResult> _login() async {
       );
     }
 
-    return Scaffold(
-      body: Column(
+
+
+
+
+
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Form(
-            key: _formKey1,
-            child: Column(
-              children: [
-                 Text(
+
+                Text(
                   "Ingrese credenciales",
                 ),
-                SizedBox(height: 20),
-TextFormField(
+            SizedBox(height: 20),
+
+          Column(
+            //mainAxisSize: MainAxisSize.min, 
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+            children: [
+            TextFormField(
                 keyboardType: TextInputType.text,
                 controller: userNameController,
                 decoration: InputDecoration(
@@ -167,6 +174,7 @@ TextFormField(
                 },
               ),
               SizedBox(height: 10),
+
             TextFormField(
                 keyboardType: TextInputType.text,
                 controller: passwordController,
@@ -184,6 +192,13 @@ TextFormField(
                   return null;
                 },
               ),
+            ],
+          ),
+              SizedBox(height: 10),
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Mutation(
                 options: MutationOptions(
                   document: gql(loginPostMutation),
@@ -268,7 +283,7 @@ TextFormField(
                   onPressed: ()  {
 
                     // Validate returns true if the form is valid, or false otherwise.
-                    if (_formKey1.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
 
@@ -290,19 +305,25 @@ TextFormField(
                    );
                 }           
             ),
-                // Form 1 fields (e.g., TextFormField, CheckboxListTile, etc.)
-              ],
-            ),
-          ),
-          Form(
-            key: _formKey2,
-            child: Column(
-              children: [
-                 Text(
-                  "Crear Usuario nuevo",
-                ),
-            SizedBox(height: 20),
+            /*
+            Text(
+              "error :${appState.username}",
+              style: TextStyle(fontSize: 12),
+            ),*/
 
+            ],
+          ),
+
+          SizedBox(height: 20),
+              Text(
+                  "Crear usuario  nuevo",
+                ),
+          SizedBox(height: 20),
+
+          Column(
+            mainAxisSize: MainAxisSize.min, 
+            children: [
+          
             TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 controller: createEmailController,
@@ -312,12 +333,12 @@ TextFormField(
                     hintText: 'email',
 
                   ),
-                validator: (value) {
+             /*   validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter email';
                   }
                   return null;
-                },
+                },*/
               ),
               SizedBox(height: 10),
 
@@ -330,12 +351,12 @@ TextFormField(
                     hintText: 'username',
 
                   ),
-                validator: (value) {
+             /*   validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter username';
                   }
                   return null;
-                },
+                },*/
               ),
               SizedBox(height: 10),
 
@@ -349,15 +370,23 @@ TextFormField(
 
                 ),
                 obscureText: true,
-                validator: (value) {
+              /*  validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a password';
                   }
                   return null;
-                },
+                },*/
               ),
+                         
 
- Mutation(
+            ],
+          ),
+              SizedBox(height: 10),
+
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Mutation(
                 options: MutationOptions(
                   document: gql(createPostMutation),
                   // ignore: void_checks
@@ -423,27 +452,31 @@ TextFormField(
 
                   return ElevatedButton(
                   onPressed: ()  {
-
-                    if (_formKey2.currentState!.validate()) {
-
                     // ignore: await_only_futures
                     runMutation({ 
                                   "email":    createEmailController.text, 
                                   "password": createPasswordController.text,
                                   "username": createUserController.text
                                 });
-                                        }
                   },
                   child: const Text('Create User'),
                    );
                 }           
             ),
-                // Form 2 fields (e.g., TextFormField, CheckboxListTile, etc.)
-              ],
-            ),
+            ],
           ),
+
+
+
+
         ],
+
+
+        
       ),
     );
+
+  
   }
+  
 }
